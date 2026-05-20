@@ -18,14 +18,10 @@ public class ItemUtils {
 
     private static final float SPREAD_RADIUS = 0.3F;
 
-    @SuppressWarnings("deprecation")
     public static ItemStack getItemStack(String itemName, int dropAmount)  {
             if(!PluginMain.versionCompatible(12)){
                 if(itemName.contains("LAPIS_LAZULI")){
-                    // Pre-1.12: blue dye was INK_SACK with durability 4
-                    ItemStack stack = new ItemStack(Material.valueOf("INK_SACK"), dropAmount);
-                    stack.setDurability((short) 4);
-                    return stack;
+                    return new ItemStack(Material.LAPIS_LAZULI, dropAmount);
                 }
                 else if(itemName.contains("LAPIS_ORE")){
                     return new ItemStack(PluginMain.lapis_ore,dropAmount);
