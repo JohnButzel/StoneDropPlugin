@@ -142,8 +142,8 @@ public class BlockListener implements Listener {
         if (PluginMain.versionCompatible(12)) {
             Damageable itemMeta = (Damageable) player.getInventory().getItemInMainHand().getItemMeta();
             if (itemMeta != null) {
-                if (((ItemMeta) itemMeta).hasEnchant(Enchantment.DURABILITY)) {
-                    if (MathUtils.chance(1f / (((ItemMeta) itemMeta).getEnchantLevel(Enchantment.DURABILITY) + 1))) {
+                if (((ItemMeta) itemMeta).hasEnchant(Registry.ENCHANTMENT.get(NamespacedKey.minecraft("unbreaking")))) {
+                    if (MathUtils.chance(1f / (((ItemMeta) itemMeta).getEnchantLevel(Registry.ENCHANTMENT.get(NamespacedKey.minecraft("unbreaking"))) + 1))) {
                         itemMeta.setDamage(itemMeta.getDamage() + 1);
                     }
                 } else {
@@ -156,8 +156,8 @@ public class BlockListener implements Listener {
                 else player.getInventory().getItemInMainHand().setItemMeta((ItemMeta) itemMeta);
             }
         } else {
-            if (player.getItemInHand().containsEnchantment(Enchantment.DURABILITY)) {
-                if (MathUtils.chance(1f / (player.getItemInHand().getEnchantmentLevel(Enchantment.DURABILITY) + 1))) {
+            if (player.getItemInHand().containsEnchantment(Enchantment.getByName("DURABILITY"))) {
+                if (MathUtils.chance(1f / (player.getItemInHand().getEnchantmentLevel(Enchantment.getByName("DURABILITY")) + 1))) {
                     player.getItemInHand().setDurability((short) (player.getItemInHand().getDurability() + 1));
                 }
             } else {
@@ -209,7 +209,10 @@ public class BlockListener implements Listener {
     }
 
     private void realizeDropForFortune(Player eventPlayer, Block eventBlock){
-        int pickaxeLootLevel = ItemUtils.getItemInHand(eventPlayer).getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+        Enchantment fortuneEnchant = PluginMain.versionCompatible(12)
+                ? Registry.ENCHANTMENT.get(NamespacedKey.minecraft("fortune"))
+                : Enchantment.getByName("LOOT_BONUS_BLOCKS");
+        int pickaxeLootLevel = ItemUtils.getItemInHand(eventPlayer).getEnchantmentLevel(fortuneEnchant);
         for (String s : oreNames) {
             if (!s.equals("COBBLE")) {
                 DropChance oreSettings = dropChances.get(s);
@@ -277,7 +280,7 @@ public class BlockListener implements Listener {
             Chest chest = (Chest) block.getState();
 
             if (PluginMain.versionCompatible(12))
-                Objects.requireNonNull(location.getWorld()).spawnParticle(Particle.TOTEM, location, 100, 0, 0, 0);
+                Objects.requireNonNull(location.getWorld()).spawnParticle(Registry.PARTICLE_TYPE.get(NamespacedKey.minecraft("totem_of_undying")), location, 100, 0, 0, 0);
 
             chestInv.forEach(itemStack -> {
                 int freeSlot = ItemUtils.getRandomFreeSlot(chest.getBlockInventory());

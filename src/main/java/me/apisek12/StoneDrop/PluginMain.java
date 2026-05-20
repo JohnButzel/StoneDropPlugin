@@ -85,22 +85,16 @@ public class PluginMain extends JavaPlugin {
         configManager = new ConfigManager(this);
 
 
-        try {
-            //Check if version is > 1.12
-            if (versionCompatible(12)) {
-                golden = Material.getMaterial(Material.class.getField("GOLDEN_PICKAXE").getName());
-                wooden = Material.getMaterial(Material.class.getField("WOODEN_PICKAXE").getName());
-            } else {
-                golden = Material.getMaterial(Material.class.getField("GOLD_PICKAXE").getName());
-                wooden = Material.getMaterial(Material.class.getField("WOOD_PICKAXE").getName());
-                lapis_ore = Material.getMaterial(Material.class.getField("LAPIS_ORE").getName());
-
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+        if (versionCompatible(12)) {
+            golden = Material.getMaterial("GOLDEN_PICKAXE");
+            wooden = Material.getMaterial("WOODEN_PICKAXE");
+        } else {
+            golden = Material.getMaterial("GOLD_PICKAXE");
+            wooden = Material.getMaterial("WOOD_PICKAXE");
+            lapis_ore = Material.getMaterial("LAPIS_ORE");
         }
 
-        if (versionCompatible(16)) {
+        if (versionCompatible(15)) {
             isNetherite = true;
         }
 
@@ -108,7 +102,7 @@ public class PluginMain extends JavaPlugin {
         configManager.loadConfig();
 
 
-        new Updater(this, 339276, getFile(), Updater.UpdateType.DEFAULT, true);
+        new Updater(this, "JohnButzel", "StoneDropPlugin", getFile(), Updater.UpdateType.DEFAULT, true);
         new Metrics(this);
         getServer().getConsoleSender().sendMessage("[StoneDrop] " + ChatColor.GREEN + "Configuration Loaded, Plugin enabled!");
     }

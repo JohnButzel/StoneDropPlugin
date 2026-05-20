@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
 import org.bukkit.enchantments.Enchantment;
-import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -117,20 +116,12 @@ public class DropChance {
         enchant.forEach((enchantName, level) ->{
             enchantName = enchantName.toLowerCase();
             if (PluginMain.versionCompatible(12)) {
-                try {
-                    Enchantment ench = (Enchantment) Enchantment.class.getMethod("getByKey", NamespacedKey.class).invoke(Enchantment.class, NamespacedKey.minecraft(enchantName));
-                    if (ench != null) this.enchant.put(ench, level);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
+                Enchantment ench = Enchantment.getByKey(NamespacedKey.minecraft(enchantName));
+                if (ench != null) this.enchant.put(ench, level);
             }
             else {
-                try {
-                    Enchantment ench = (Enchantment) Enchantment.class.getMethod("getByName" , String.class).invoke(Enchantment.class, enchantName);
-                    if (ench != null) this.enchant.put(ench, level);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
+                Enchantment ench = Enchantment.getByName(enchantName);
+                if (ench != null) this.enchant.put(ench, level);
             }
         });
     }

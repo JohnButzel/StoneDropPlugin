@@ -5,7 +5,6 @@ import me.apisek12.StoneDrop.PluginMain;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class ChestItemsInfo {
@@ -27,18 +26,12 @@ public class ChestItemsInfo {
         this.max = max;
         enchantment.forEach((name, level) ->{
             if (PluginMain.plugin.versionCompatible(12)){
-                try {
-                    this.enchantment.put((Enchantment) Enchantment.class.getMethod("getByKey", NamespacedKey.class).invoke(Enchantment.class, NamespacedKey.minecraft(name)), level);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
+                Enchantment ench = Enchantment.getByKey(NamespacedKey.minecraft(name));
+                if (ench != null) this.enchantment.put(ench, level);
             }
             else {
-                try {
-                    this.enchantment.put((Enchantment) Enchantment.class.getMethod("getByName", String.class).invoke(Enchantment.class, name), level);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
+                Enchantment ench = Enchantment.getByName(name);
+                if (ench != null) this.enchantment.put(ench, level);
             }
         });
     }
