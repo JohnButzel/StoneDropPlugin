@@ -99,7 +99,6 @@ jobs:
         PR_URL=$(gh pr create \
           --base master \
           --head "$BRANCH" \
-          --title "Bump version to $NEW_VERSION" \
-          --body "Auto-bump after releasing v$NEW_VERSION" \
-          --label automated)
+          --title "Bump version to $NEW_VERSION [skip ci]" \
+          --body "Auto-bump after releasing v$NEW_VERSION")
         gh pr merge "$PR_URL" --auto --squash
