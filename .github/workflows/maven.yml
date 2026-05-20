@@ -89,7 +89,7 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: |
         NEW_VERSION="${{ steps.bump.outputs.NEW_VERSION }}"
-        BRANCH="bump-version/v$NEW_VERSION"
+        BRANCH="bump-version/v$NEW_VERSION-$GITHUB_RUN_ID"
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git checkout -b "$BRANCH"
