@@ -82,7 +82,7 @@ jobs:
         name: StoneDrop v${{ steps.bump.outputs.NEW_VERSION }}
         generate_release_notes: true
         files: target/*.jar
-        overwrite: true
+        overwrite_files: true
 
     - name: Push bump commit via auto-merge PR
       env:
