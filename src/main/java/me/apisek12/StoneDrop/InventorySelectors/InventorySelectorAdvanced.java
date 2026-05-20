@@ -238,9 +238,7 @@ public class InventorySelectorAdvanced extends InventorySelector{
                         }
                     }
                     else {
-                        @SuppressWarnings("deprecation")
-                        ItemStack blueDye = new ItemStack(Material.valueOf("INK_SACK"), 1);
-                        if (clickedItem.getType() == blueDye.getType() && clickedItem.getDurability() == 4){
+                        if (clickedItem.getType() == Material.LAPIS_LAZULI){
                             inventorySelector.settings.get("LAPIS_LAZULI").toggle();
                         }
                         else {
