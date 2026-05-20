@@ -96,9 +96,8 @@ jobs:
         git add pom.xml
         git commit -m "Bump version to $NEW_VERSION [skip ci]"
         git push origin "$BRANCH"
-        PR_URL=$(gh pr create \
+        gh pr create \
           --base master \
           --head "$BRANCH" \
           --title "Bump version to $NEW_VERSION [skip ci]" \
-          --body "Auto-bump after releasing v$NEW_VERSION")
-        gh pr merge "$PR_URL" --auto --squash
+          --body "Auto-bump after releasing v$NEW_VERSION"
