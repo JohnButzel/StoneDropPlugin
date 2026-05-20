@@ -14,7 +14,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Dye;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -239,12 +238,10 @@ public class InventorySelectorAdvanced extends InventorySelector{
                         }
                     }
                     else {
-                        ItemStack dye = new Dye(DyeColor.BLUE).toItemStack();
-                        if (clickedItem.getType().equals(dye.getType())){
-                            Dye dyeColor = (Dye) clickedItem.getData();
-                            if (dyeColor != null && dyeColor.getColor() != null && dyeColor.getColor().equals(DyeColor.BLUE)){
-                                inventorySelector.settings.get("LAPIS_LAZULI").toggle();
-                            }
+                        @SuppressWarnings("deprecation")
+                        ItemStack blueDye = new ItemStack(Material.valueOf("INK_SACK"), 1);
+                        if (clickedItem.getType() == blueDye.getType() && clickedItem.getDurability() == 4){
+                            inventorySelector.settings.get("LAPIS_LAZULI").toggle();
                         }
                         else {
                             if (inventorySelector.settings.containsKey(clickedItem.getType().toString())) inventorySelector.settings.get(clickedItem.getType().toString()).toggle();

@@ -2,7 +2,6 @@ package me.apisek12.StoneDrop.Utils;
 
 import me.apisek12.StoneDrop.DataModels.DropChance;
 import me.apisek12.StoneDrop.PluginMain;
-import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.ChatColor;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Dye;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -20,10 +18,14 @@ public class ItemUtils {
 
     private static final float SPREAD_RADIUS = 0.3F;
 
+    @SuppressWarnings("deprecation")
     public static ItemStack getItemStack(String itemName, int dropAmount)  {
             if(!PluginMain.versionCompatible(12)){
                 if(itemName.contains("LAPIS_LAZULI")){
-                    return new Dye(DyeColor.BLUE).toItemStack(dropAmount);
+                    // Pre-1.12: blue dye was INK_SACK with durability 4
+                    ItemStack stack = new ItemStack(Material.valueOf("INK_SACK"), dropAmount);
+                    stack.setDurability((short) 4);
+                    return stack;
                 }
                 else if(itemName.contains("LAPIS_ORE")){
                     return new ItemStack(PluginMain.lapis_ore,dropAmount);
